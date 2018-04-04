@@ -49,7 +49,7 @@ namespace SoundVast.Components.LiveStream
                 .Description("The top level comments for the live stream")
                 .Resolve(c =>
                 {
-                    var comments = c.Source.Comments.Where(x => x.IsTopLevelComment);
+                    var comments = c.Source.Comments;
 
                     return ConnectionUtils.ToConnection(comments, c);
                 });

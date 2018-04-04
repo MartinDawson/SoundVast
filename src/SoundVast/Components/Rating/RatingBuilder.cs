@@ -11,7 +11,6 @@ namespace SoundVast.Components.Rating
         public static IQueryable<T> BuildRating<T>(this IQueryable<T> query) where T : Models.Rating
         {
             return query
-                .Include(x => x.Comment)
                 .Include(x => x.Audio)
                 .Include(x => x.User);
         }

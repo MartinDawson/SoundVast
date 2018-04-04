@@ -11,7 +11,7 @@ namespace SoundVast.Components.Audio
 {
     public interface IAudioService<T> where T : Models.Audio
     {
-        int GetCount();
+        T GetAudio(int id);
         IEnumerable<T> GetAudios();
         IEnumerable<T> GetAudios(string genreName, string searchQuery);
         void Add(T model);

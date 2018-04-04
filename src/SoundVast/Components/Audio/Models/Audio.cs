@@ -29,6 +29,7 @@ namespace SoundVast.Components.Audio.Models
         public virtual ICollection<AudioGenre> AudioGenres { get; set; } = new List<AudioGenre>();
         public virtual ICollection<ApplicationUser> Contributors { get; set; } = new List<ApplicationUser>();
         public virtual ICollection<Rating.Models.Rating> Ratings { get; set; } = new List<Rating.Models.Rating>();
+        [NotMapped]
         public virtual ICollection<Comment.Models.Comment> Comments { get; set; } = new List<Comment.Models.Comment>();
     }
 }

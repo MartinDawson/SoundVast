@@ -8,28 +8,21 @@ using SoundVast.Components.Comment.Models;
 using SoundVast.Components.Rating;
 using SoundVast.Components.User;
 using SoundVast.Validation;
+using System.Reactive.Subjects;
+using System.Collections.Concurrent;
+using System.Reactive.Linq;
 
 namespace SoundVast.Components.Comment
 {
     public class CommentService : ICommentService
     {
+        private readonly ISubject<Models.Comment> _commentStream = new ReplaySubject<Models.Comment>();
         private readonly IValidationProvider _validationProvider;
-        private readonly IRepository<Models.Comment> _repository;
+        public ConcurrentDictionary<int, Models.Comment> AllComments { get; }
 
-        public CommentService(IValidationProvider validationProvider, IRepository<Models.Comment> repository)
+        public CommentService(IValidationProvider validationProvider)
         {
             _validationProvider = validationProvider;
-            _repository = repository;
-        }
-
-        public Models.Comment Get(int id)
-        {
-            return _repository.GetAll().BuildComment().Single(x => x.Id == id);
-        }
-
-        public IEnumerable<Models.Comment> GetComments()
-        {
-            return _repository.GetAll().BuildComment();
         }
 
         public void Add(Models.Comment comment)
@@ -38,43 +31,46 @@ namespace SoundVast.Components.Comment
 
             if (!_validationProvider.HasErrors)
             {
-                if (comment.OriginalCommentId.HasValue)
+                if (comment.OriginalComment != null)
                 {
-                    var originalComment = _repository.GetAll().BuildComment()
-                        .Single(x => x.Id == comment.OriginalCommentId.Value);
+                    var originalComment = AllComments.GetValueOrDefault(comment.OriginalComment.Id);
 
-                    originalComment.Replies.Add(comment);
+                    comment.OriginalComment = originalComment;
                 }
 
-                _repository.Add(comment);
+                AllComments.TryAdd(comment.Id, comment);
+                _commentStream.OnNext(comment);
             }
         }
 
-        public void Edit(Models.Comment existingComment, string body)
+        public IObservable<Models.Comment> Comments()
+        {
+            return _commentStream.AsObservable();
+        }
+
+        public void Edit(int commentId, string body)
         {
             if (!_validationProvider.HasErrors)
             {
-                existingComment.Body = body;
+                var comment = AllComments.GetValueOrDefault(commentId);
 
-                _repository.Save();
+                comment.Body = body;
             }
         }
 
-        public void Delete(Models.Comment existingComment)
+        public void Delete(int commentId)
         {
             if (!_validationProvider.HasErrors)
             {
-                _repository.Remove(existingComment);
+                var removedComment = new Models.Comment();
+
+                AllComments.Remove(commentId, out removedComment);
             }
         }
 
-        public Rating.Models.Rating Rate(int commentId, string userId, bool liked)
+        public void AddError(Exception exception)
         {
-            var rating = _repository.GetAll().Rate(commentId, userId, liked);
-
-            _repository.Save();
-
-            return rating;
+            _commentStream.OnError(exception);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace SoundVast.Components.Audio
     {
         private readonly ICloudStorage _cloudStorage;
 
-        public AudioInterface(ICloudStorage cloudStorage)
+        public AudioInterface(ICloudStorage cloudStorage, ICommentService commentService)
         {
             _cloudStorage = cloudStorage;
 
@@ -36,10 +36,10 @@ namespace SoundVast.Components.Audio
             Field<ListGraphType<RatingPayload>>("ratings", "The ratings that have been applied by users to this audio");
             Connection<CommentPayload>()
                 .Name("comments")
-                .Description("The top level comments for the audio")
+                .Description("The comments for the audio")
                 .Resolve(c =>
                 {
-                    var comments = c.Source.Comments.Where(x => x.IsTopLevelComment);
+                    var comments = c.Source.Comments;
 
                     return ConnectionUtils.ToConnection(comments, c);
                 });

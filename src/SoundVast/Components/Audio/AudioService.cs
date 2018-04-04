@@ -43,9 +43,9 @@ namespace SoundVast.Components.Audio
             this.validationProvider = validationProvider;
         }
 
-        public int GetCount()
+        public T GetAudio(int id)
         {
-            return _repository.GetAll().Count();
+            return _repository.GetAll().BuildAudio().Single(x => x.Id == id);
         }
 
         public IEnumerable<T> GetAudios()

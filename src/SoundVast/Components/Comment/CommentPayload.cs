@@ -24,27 +24,15 @@ namespace SoundVast.Components.Comment
             Name = nameof(Models.Comment);
 
             Id(x => x.Id);
-            Field(x => x.Likes);
-            Field(x => x.Dislikes);
             Field(x => x.Body).Description("The body of the comment");
-            Field<DateGraphType>("dateAdded", "The date when the comment was made");
             Field<NonNullGraphType<AccountPayload>>("user", "The user who added the comment");
             Field<NonNullGraphType<AudioInterface>>("audio", "The audio that the comment was added to");
             Field<CommentPayload>("originalComment", "The original comment that this is a reply to");
-            Connection<CommentPayload>()
-                .Name("replies")
-                .Description("The reply tree for the top level comments")
-                .Resolve(c =>
-                {
-                    var topLevelReplies = c.Source.TopLevelReplies(c.Source);
-
-                    return ConnectionUtils.ToConnection(topLevelReplies, c);
-                });
         }
 
         public override Models.Comment GetById(string id)
         {
-            return _commentService.Get(int.Parse(id));
+            return _commentService.AllComments.GetValueOrDefault(int.Parse(id), null);
         }
     }
 }
