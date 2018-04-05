@@ -13,4 +13,4 @@ To create an open-source radio streaming website that has real time comments for
 
 NOTE:
 
-I will give instructions on how to set it up locally at some point if their is demand for this in the future but not right now, basically I use Azure storage, SQL server for hosting and [Dirble](https://dirble.com/) for the radio's API.
+I will give instructions on how to set it up locally at some point if their is demand for this in the future but not right now, basically I use Azure for hosting with Azure storage and Azure databases and [Dirble](https://dirble.com/) for the radio's API.
