@@ -1,3 +1,7 @@
+NOTE:
+
+I will give instructions on how to set it up locally at some point in the future but not right now, basically I use Azure storage, SQL server for hosting and [Dirble](https://dirble.com/) for the radio's API.
+
 <a href="https://www.soundvast.com"><img src="https://user-images.githubusercontent.com/15030491/37099444-90419b34-2220-11e8-8cbd-7bfd5b2fb748.jpg" width="400px" /></a>
 
 <hr />
