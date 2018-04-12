@@ -7,17 +7,11 @@ import Comment from './comment';
 const fragments = graphql`
   fragment commentContainer_comment on Comment {
     id
-    commentId
     body
     dateAdded
-    likes
-    dislikes
     user {
       userName
     }
-    ...repliesContainer_comment
-    ...likeCommentContainer_comment
-    ...dislikeCommentContainer_comment
   }
 `;
 

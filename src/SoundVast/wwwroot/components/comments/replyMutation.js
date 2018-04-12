@@ -9,9 +9,6 @@ const mutation = graphql`
     comment(input: $input) {
       comment {
         ...replyContainer_reply
-        replies {
-          totalCount
-        }
       }
     }
   }

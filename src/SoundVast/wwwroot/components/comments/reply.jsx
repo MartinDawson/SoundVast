@@ -8,7 +8,6 @@ import Button from '../shared/button/buttonContainer';
 import ReplyBox from './common/replyBoxContainer';
 import CommentHeader from './common/commentHeaderContainer';
 import CommentBody from './common/commentBody';
-import CommentControls from './common/commentControls';
 
 const Reply = ({
   reply,
@@ -16,9 +15,6 @@ const Reply = ({
   rootComment,
   user,
   dateAdded,
-  commentId,
-  likes,
-  dislikes,
   body,
   originalComment,
   originalCommentExpanded,
@@ -48,7 +44,6 @@ const Reply = ({
       </blockquote>
       {body}
     </CommentBody>
-    <CommentControls comment={reply} commentId={commentId} likes={likes} dislikes={dislikes} />
     <ReplyBox
       rootComment={rootComment}
       comment={reply}
@@ -62,9 +57,6 @@ Reply.propTypes = {
     userName: PropTypes.string.isRequired,
   }).isRequired,
   dateAdded: PropTypes.string.isRequired,
-  dislikes: PropTypes.number.isRequired,
-  likes: PropTypes.number.isRequired,
-  commentId: PropTypes.number.isRequired,
   rootComment: PropTypes.object.isRequired,
   audio: PropTypes.object.isRequired,
   reply: PropTypes.object.isRequired,

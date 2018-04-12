@@ -41,7 +41,6 @@ namespace SoundVast.Components.GraphQl
             Mutation<ResetPasswordInput, ResetPasswordPayload>("resetPassword");
             Mutation<SaveCommentInput, SaveCommentPayload>("comment").AddPermission(AuthorizedPermission);
             Mutation<FlagAudioInput, FlagObjectPayload>("flagAudio").AddPermission(AuthorizedPermission);
-            Mutation<FlagCommentInput, FlagObjectPayload>("flagComment").AddPermission(AuthorizedPermission);
         }
     }
 }

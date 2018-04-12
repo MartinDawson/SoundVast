@@ -15,7 +15,7 @@ namespace SoundVast.Components.Comment
            
             Field<NonNullGraphType<StringGraphType>>("Body");
             Field<NonNullGraphType<IntGraphType>>("AudioId");
-            Field<IntGraphType>("OriginalCommentId");
+            Field<StringGraphType>("OriginalCommentId");
         }
     }
 }

@@ -10,10 +10,6 @@ const fragments = graphql`
     name
     coverImageUrl
     websiteUrl
-    likes
-    dislikes
-    ...likeAudioContainer_audio
-    ...dislikeAudioContainer_audio
     ...mobileSideBarContainer_audio
   }
 `;

@@ -18,13 +18,10 @@ export type commentsContainer_audio = {|
   +comments: ?{|
     +edges: ?$ReadOnlyArray<?{|
       +node: ?{|
-        +commentId: number,
+        +commentId: string,
         +$fragmentRefs: commentContainer_comment$ref,
       |},
     |}>,
-    +pageInfo: {|
-      +hasNextPage: boolean,
-    |},
   |},
   +$fragmentRefs: (commentBoxContainer_audio$ref & replyBoxContainer_audio$ref),
   +$refType: commentsContainer_audio$ref,
@@ -147,14 +144,14 @@ const node/*: ConcreteFragment*/ = {
             {
               "kind": "ScalarField",
               "alias": null,
-              "name": "hasNextPage",
+              "name": "endCursor",
               "args": null,
               "storageKey": null
             },
             {
               "kind": "ScalarField",
               "alias": null,
-              "name": "endCursor",
+              "name": "hasNextPage",
               "args": null,
               "storageKey": null
             }
@@ -164,5 +161,5 @@ const node/*: ConcreteFragment*/ = {
     }
   ]
 };
-(node/*: any*/).hash = '47cdfb3a71c21ca81bacfef3f9b80b0a';
+(node/*: any*/).hash = 'bb4e354ab4933210028a80ebc44b6b38';
 module.exports = node;

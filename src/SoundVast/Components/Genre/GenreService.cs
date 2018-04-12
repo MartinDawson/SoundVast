@@ -25,12 +25,11 @@ namespace SoundVast.Components.Genre
         public void UpdateCoverImages()
         {
             var genres = _repository.GetAll().BuildGenre();
-            var placeholderImageName = Image.PlaceholderImageName;
 
             foreach (var genre in genres)
             {
                 var audios = genre.AudioGenres.Select(x => x.Audio);
-                var coverImageName = audios.Select(x => x.CoverImageName).FirstOrDefault();
+                var coverImageName = audios.FirstOrDefault(x => x.CoverImageName != null).CoverImageName;
 
                 genre.CoverImageName = coverImageName;
             }

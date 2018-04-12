@@ -8,16 +8,11 @@
 
 /*::
 import type { ConcreteFragment } from 'relay-runtime';
-type dislikeCommentContainer_comment$ref = any;
-type likeCommentContainer_comment$ref = any;
 import type { FragmentReference } from 'relay-runtime';
 declare export opaque type replyContainer_reply$ref: FragmentReference;
 export type replyContainer_reply = {|
-  +commentId: number,
   +body: string,
   +dateAdded: ?any,
-  +likes: number,
-  +dislikes: number,
   +user: {|
     +userName: string,
   |},
@@ -27,7 +22,6 @@ export type replyContainer_reply = {|
       +userName: string,
     |},
   |},
-  +$fragmentRefs: (likeCommentContainer_comment$ref & dislikeCommentContainer_comment$ref),
   +$refType: replyContainer_reply$ref,
 |};
 */
@@ -66,32 +60,11 @@ return {
   "metadata": null,
   "argumentDefinitions": [],
   "selections": [
-    {
-      "kind": "ScalarField",
-      "alias": null,
-      "name": "commentId",
-      "args": null,
-      "storageKey": null
-    },
     v0,
     {
       "kind": "ScalarField",
       "alias": null,
       "name": "dateAdded",
-      "args": null,
-      "storageKey": null
-    },
-    {
-      "kind": "ScalarField",
-      "alias": null,
-      "name": "likes",
-      "args": null,
-      "storageKey": null
-    },
-    {
-      "kind": "ScalarField",
-      "alias": null,
-      "name": "dislikes",
       "args": null,
       "storageKey": null
     },
@@ -108,19 +81,9 @@ return {
         v0,
         v1
       ]
-    },
-    {
-      "kind": "FragmentSpread",
-      "name": "likeCommentContainer_comment",
-      "args": null
-    },
-    {
-      "kind": "FragmentSpread",
-      "name": "dislikeCommentContainer_comment",
-      "args": null
     }
   ]
 };
 })();
-(node/*: any*/).hash = 'be589a2bfc29c188790c3039d4ad5014';
+(node/*: any*/).hash = '19b97cdc41f9b6e310784bb50fba76a3';
 module.exports = node;

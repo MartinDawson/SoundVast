@@ -3,10 +3,8 @@ import PropTypes from 'prop-types';
 
 import styles from './comment.less';
 import ReplyBox from './common/replyBoxContainer';
-import Replies from './repliesContainer';
 import CommentHeader from './common/commentHeaderContainer';
 import CommentBody from './common/commentBody';
-import CommentControls from './common/commentControls';
 
 const Comment = ({
   comment,
@@ -14,22 +12,18 @@ const Comment = ({
   user,
   dateAdded,
   body,
-  commentId,
-  likes,
-  dislikes,
 }) => (
   <div className={styles.commentTree}>
     <div data-component="comment">
       <CommentHeader userName={user.userName} dateAdded={dateAdded} />
       <CommentBody>{body}</CommentBody>
-      <CommentControls comment={comment} commentId={commentId} likes={likes} dislikes={dislikes} />
-      <ReplyBox
+      {/* <ReplyBox
         rootComment={comment}
         comment={comment}
         audio={audio}
-      />
+      /> */}
     </div>
-    <Replies comment={comment} audio={audio} />
+    {/* <Replies comment={comment} audio={audio} /> */}
   </div>
 );
 
@@ -41,9 +35,6 @@ Comment.propTypes = {
   }).isRequired,
   dateAdded: PropTypes.string.isRequired,
   body: PropTypes.node.isRequired,
-  dislikes: PropTypes.number.isRequired,
-  likes: PropTypes.number.isRequired,
-  commentId: PropTypes.number.isRequired,
 };
 
 export default Comment;

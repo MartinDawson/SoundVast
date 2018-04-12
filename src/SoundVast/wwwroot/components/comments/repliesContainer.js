@@ -10,23 +10,6 @@ const fragments = graphql`
     count: { type: "Int", defaultValue: 0 }
   ) {
     id
-    replies(
-      first: $count
-      after: $cursor
-    ) @connection(key: "repliesContainer_replies") {
-      totalCount
-      edges {
-        cursor
-        node {
-          commentId
-          ...replyContainer_reply
-        }
-      }
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-    }
   }
 `;
 
@@ -36,7 +19,6 @@ const connectionConfig = {
     query repliesContainerForwardQuery(
       $id: ID!
       $count: Int!
-      $cursor: String
     ) {
       node(id: $id) {
         ...repliesContainer_comment @arguments(count: $count)

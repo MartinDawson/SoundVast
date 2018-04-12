@@ -18,7 +18,7 @@ namespace SoundVast.Components.Comment
     {
         private readonly ISubject<Models.Comment> _commentStream = new ReplaySubject<Models.Comment>();
         private readonly IValidationProvider _validationProvider;
-        public ConcurrentDictionary<int, Models.Comment> AllComments { get; }
+        public ConcurrentDictionary<string, Models.Comment> AllComments { get; } = new ConcurrentDictionary<string, Models.Comment>();
 
         public CommentService(IValidationProvider validationProvider)
         {
@@ -38,6 +38,8 @@ namespace SoundVast.Components.Comment
                     comment.OriginalComment = originalComment;
                 }
 
+                comment.Audio.Comments.Add(comment);
+
                 AllComments.TryAdd(comment.Id, comment);
                 _commentStream.OnNext(comment);
             }
@@ -48,7 +50,7 @@ namespace SoundVast.Components.Comment
             return _commentStream.AsObservable();
         }
 
-        public void Edit(int commentId, string body)
+        public void Edit(string commentId, string body)
         {
             if (!_validationProvider.HasErrors)
             {
@@ -58,7 +60,7 @@ namespace SoundVast.Components.Comment
             }
         }
 
-        public void Delete(int commentId)
+        public void Delete(string commentId)
         {
             if (!_validationProvider.HasErrors)
             {

@@ -8,11 +8,11 @@ namespace SoundVast.Components.Comment
 {
     public interface ICommentService
     {
-        ConcurrentDictionary<int, Models.Comment> AllComments { get; }
+        ConcurrentDictionary<string, Models.Comment> AllComments { get; }
         IObservable<Models.Comment> Comments();
         void Add(Models.Comment comment);
-        void Edit(int commentId, string body);
-        void Delete(int commentId);
+        void Edit(string commentId, string body);
+        void Delete(string commentId);
         void AddError(Exception exception);
     }
 }

@@ -4,6 +4,7 @@ import { graphql } from 'react-relay';
 import { paginationContainer } from 'recompose-relay-modern';
 import { connect } from 'react-redux';
 import { actions } from 'react-jplaylist';
+import _ from 'lodash';
 
 import Radios from './radios';
 import { audiosToLoad } from '../shared/utilities/itemsToLoad';
@@ -104,7 +105,7 @@ const enhance = compose(
       this.props.setPlaylist('FooterPlaylist', playlist);
     },
     componentDidUpdate(prevProps) {
-      if (this.props.liveStreams.items !== prevProps.liveStreams.items) {
+      if (_.isEqual(this.props.liveStreams.items, prevProps.liveStreams.items)) {
         this.props.liveStreams.items.forEach(item => this.props.add('FooterPlaylist', convertRadioToMedia(item)));
       }
     },

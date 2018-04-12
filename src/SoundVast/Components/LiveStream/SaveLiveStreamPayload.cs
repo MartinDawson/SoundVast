@@ -39,7 +39,8 @@ namespace SoundVast.Components.LiveStream
             var country = inputs.Get<string>("country");
             var genreIds = inputs.Get("genreIds", new object[0]).Cast<string>().ToList();
             var tags = inputs.Get("tags", new object[0]).Select(x => x.As<Dictionary<string, object>>().ToObject<TagInput>());
-            var user = context.UserContext.As<Context>().CurrentUser;
+          //  var user = context.UserContext.As<Context>().CurrentUser;
+         //   var context = await c.UserContext.As<Task<Context>>();
             var placeholderImage = _cloudStorage.CloudBlobContainers[CloudStorageType.AppImage].GetBlockBlobReference(Audio.Image.PlaceholderImageName);
 
             var liveStream = new Models.LiveStream

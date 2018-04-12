@@ -10,6 +10,8 @@ namespace SoundVast.Components.LiveStream.Models
 {
     public class LiveStream : Audio.Models.Audio
     {
+        [Required]
+        public int Listeners { get; set; }
         public string WebsiteUrl { get; set; }
         [Required]
         public string Country { get; set; }

@@ -12,14 +12,12 @@ import './app.less';
 import App from './app';
 import commentSubscription from '../comments/commentSubscription';
 
-const enhance = compose(
+const AppContainer = compose(
   lifecycle({
     componentDidMount() {
       commentSubscription();
     },
   }),
-);
-
-const AppContainer = enhance(App);
+)(App);
 
 ReactDOM.render(<AppContainer />, document.getElementById('app'));

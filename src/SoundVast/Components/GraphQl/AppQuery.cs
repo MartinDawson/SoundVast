@@ -49,16 +49,9 @@ namespace SoundVast.Components.GraphQl
                     var filter = c.GetArgument<Filter.Filter>("filter");
                     var offset = ConnectionUtils.OffsetOrDefault(c.After, 0);
                     var page = ((offset + 1) / c.First.Value) + 2;
+                    var liveStreams = liveStreamService.GetLiveStreams(c.First.Value * page, filter, genre, searchQuery);
 
-                    if (filter.Newest)
-                    {
-                        var liveStreams = liveStreamService.GetLiveStreams(c.First.Value * page, genre, searchQuery);
-
-                        return ConnectionUtils.ToConnection(liveStreams, c);
-                    }
-
-                    return liveStreamService.GetPopularLiveStreams(page, genre, searchQuery)
-                            .ContinueWith(x => ConnectionUtils.ToConnection(x.Result, c));
+                    return ConnectionUtils.ToConnection(liveStreams, c);
                 });
 
             Field<ListGraphType<GenrePayload>>("genres",
@@ -66,7 +59,11 @@ namespace SoundVast.Components.GraphQl
 
             Field<AccountPayload>()
                 .Name("user")
-                .Resolve(c => c.UserContext.As<Context>().CurrentUser);
+                .ResolveAsync(async c => {
+                    var context = await c.UserContext.As<Task<Context>>();
+
+                    return context.CurrentUser;
+                });
 
             Field<ExternalLoginCallbackPayload>()
                 .Name("externalLoginCallback")

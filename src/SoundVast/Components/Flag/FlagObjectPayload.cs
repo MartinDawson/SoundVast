@@ -26,14 +26,12 @@ namespace SoundVast.Components.Flag
         public override object MutateAndGetPayload(MutationInputs inputs, ResolveFieldContext<object> context)
         {
             var audioId = inputs.Get<int?>("audioId");
-            var commentId = inputs.Get<int?>("commentId");
             var reason = inputs.Get<string>("reason");
             var additionalDetails = inputs.Get<string>("additionalDetails");
 
             var flag = new Models.Flag
             {
                 AudioId = audioId,
-                CommentId = commentId,
                 Reason = reason,
                 AdditionalDetails = additionalDetails,
             };

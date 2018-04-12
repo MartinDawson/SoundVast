@@ -3,7 +3,6 @@ import makeRouteConfig from 'found/lib/makeRouteConfig';
 import Route from 'found/lib/Route';
 
 import { routeConfig as errorPageRouteConfig } from '../../errorPage/errorPageContainer';
-import { routeConfig as uploadRouteConfig } from '../../upload/uploadContainer';
 import { routeConfig as socialLoginCallbackRouteConfig } from '../../account/login/socialLogin/socialLoginCallbackContainer';
 import { routeConfig as confirmEmailRouteConfig } from '../../account/confirmEmail/confirmEmailContainer';
 import { routeConfig as resetPasswordRouteConfig } from '../../account/resetPassword/resetPasswordContainer';
@@ -18,7 +17,6 @@ export default makeRouteConfig(
   <Route path="/" {...primaryLayoutRouteConfig}>
     <Route {...radiosRouteConfig} />
     <Route path="radio-stations" {...radiosRouteConfig} />
-    {JSON.parse(process.env.ENABLE_UPLOAD) && <Route path="upload" {...uploadRouteConfig} />}
     <Route path="genres" {...genresRouteConfig} />
     <Route path="error/:status" {...errorPageRouteConfig} />
     <Route path="account">

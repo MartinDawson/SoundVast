@@ -12,7 +12,7 @@ import type { FragmentReference } from 'relay-runtime';
 declare export opaque type likeCommentContainer_comment$ref: FragmentReference;
 export type likeCommentContainer_comment = {|
   +id: string,
-  +commentId: number,
+  +commentId: string,
   +$refType: likeCommentContainer_comment$ref,
 |};
 */

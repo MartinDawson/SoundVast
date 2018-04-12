@@ -7,7 +7,6 @@ import Header from '../../header/headerContainer';
 import FooterPlaylist from '../../footerPlaylist/footerPlaylistContainer';
 import styles from './primaryLayout.less';
 import FlagAudioModal from '../../flag/flagAudioModalContainer';
-import FlagCommentModal from '../../flag/flagCommentModalContainer';
 import CookieNotice from '../../legal/cookieNoticeContainer';
 import PrimaryLayoutErrorBoundary from './primaryLayoutErrorBoundary';
 import DisplayType from '../../shared/displayType';
@@ -34,7 +33,6 @@ const PrimaryLayout = ({
             </div>
           </PrimaryLayoutErrorBoundary>
           <FlagAudioModal />
-          <FlagCommentModal />
           <FooterPlaylist />
           <CookieNotice />
         </div>

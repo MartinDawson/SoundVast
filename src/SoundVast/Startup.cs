@@ -59,6 +59,7 @@ using GraphQL.Server.Transports.Subscriptions.Abstractions;
 using SoundVast.Utilities;
 using SoundVast.Components.Dirble;
 using System.Threading.Tasks;
+using SoundVast.Components.Comment;
 
 namespace SoundVast
 {
@@ -174,7 +175,7 @@ namespace SoundVast
 
             options.AddRedirectToHttps();
 
-            async Task<object> BuildUserContext(HttpContext c)
+            async Task<Context> BuildUserContext(HttpContext c)
             {
                 var userManager = app.ApplicationServices.GetRequiredService<UserManager<ApplicationUser>>();
                 var currentUser = await userManager.GetUserAsync(c.User);
@@ -283,6 +284,7 @@ namespace SoundVast
             builder.RegisterType<Repository<Tag, ApplicationDbContext>>().As<IRepository<Tag>>();
             builder.RegisterType<Repository<StreamData, ApplicationDbContext>>().As<IRepository<StreamData>>();
             builder.RegisterType<LogMessagesListener>().As<IOperationMessageListener>().SingleInstance();
+            builder.RegisterType<CommentService>().As<ICommentService>().SingleInstance();
             builder.RegisterType<Dirble>().As<IDirble>();
 
             return builder;

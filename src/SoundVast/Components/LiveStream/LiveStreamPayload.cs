@@ -46,10 +46,10 @@ namespace SoundVast.Components.LiveStream
             Field<ListGraphType<StreamDataPayload>>("streamDatas");
             Connection<CommentPayload>()
                 .Name("comments")
-                .Description("The top level comments for the live stream")
+                .Description("The comments for the live stream")
                 .Resolve(c =>
                 {
-                    var comments = c.Source.Comments;
+                    var comments = c.Source.Comments.Reverse();
 
                     return ConnectionUtils.ToConnection(comments, c);
                 });

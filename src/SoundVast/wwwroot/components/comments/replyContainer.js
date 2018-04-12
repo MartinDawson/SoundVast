@@ -6,11 +6,8 @@ import Reply from './reply';
 
 const fragments = graphql`
   fragment replyContainer_reply on Comment {
-    commentId
     body
     dateAdded
-    likes
-    dislikes
     user {
       userName
     }
@@ -20,8 +17,6 @@ const fragments = graphql`
         userName
       }
     }
-    ...likeCommentContainer_comment
-    ...dislikeCommentContainer_comment
   }
 `;
 

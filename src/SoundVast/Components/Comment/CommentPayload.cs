@@ -25,6 +25,7 @@ namespace SoundVast.Components.Comment
 
             Id(x => x.Id);
             Field(x => x.Body).Description("The body of the comment");
+            Field<DateGraphType>("dateAdded", "The date when the comment was made");
             Field<NonNullGraphType<AccountPayload>>("user", "The user who added the comment");
             Field<NonNullGraphType<AudioInterface>>("audio", "The audio that the comment was added to");
             Field<CommentPayload>("originalComment", "The original comment that this is a reply to");
@@ -32,7 +33,7 @@ namespace SoundVast.Components.Comment
 
         public override Models.Comment GetById(string id)
         {
-            return _commentService.AllComments.GetValueOrDefault(int.Parse(id), null);
+            return _commentService.AllComments.GetValueOrDefault(id, null);
         }
     }
 }

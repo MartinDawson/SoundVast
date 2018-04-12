@@ -1,5 +1,5 @@
 # source: https://localhost:8080/graphql
-# timestamp: Sun Apr 01 2018 19:55:49 GMT+0200 (W. Europe Daylight Time)
+# timestamp: Sat Apr 07 2018 22:16:36 GMT+0200 (W. Europe Daylight Time)
 
 schema {
   query: Query
@@ -41,7 +41,7 @@ interface Audio {
   """The ratings that have been applied by users to this audio"""
   ratings: [Rating]
 
-  """The top level comments for the audio"""
+  """The comments for the audio"""
   comments(
     """
     Only look at connected edges with cursors greater than the value of `after`.
@@ -57,12 +57,10 @@ interface Audio {
 
 type Comment implements Node {
   """The Id of the Comment"""
-  commentId: Int!
+  commentId: String!
 
   """The Global Id of the Comment"""
   id: ID!
-  likes: Int!
-  dislikes: Int!
 
   """The body of the comment"""
   body: String!
@@ -78,19 +76,6 @@ type Comment implements Node {
 
   """The original comment that this is a reply to"""
   originalComment: Comment
-
-  """The reply tree for the top level comments"""
-  replies(
-    """
-    Only look at connected edges with cursors greater than the value of `after`.
-    """
-    after: String = null
-
-    """
-    Specifies the number of edges to return starting from `after` or the first entry if `after` is not specified.
-    """
-    first: Int = null
-  ): CommentPayloadConnection
 }
 
 """
@@ -184,21 +169,11 @@ type Flag implements Node {
 
   """The audio that the user flagged"""
   audio: Audio
-
-  """The comment that the user flagged"""
-  comment: Comment
 }
 
 input FlagAudioInput {
   clientMutationId: String = null
   audioId: Int!
-  reason: String!
-  additionalDetails: String = null
-}
-
-input FlagCommentInput {
-  clientMutationId: String = null
-  commentId: Int!
   reason: String!
   additionalDetails: String = null
 }
@@ -252,7 +227,7 @@ type LiveStream implements Node & Audio {
   ratings: [Rating]
   streamDatas: [StreamData]
 
-  """The top level comments for the live stream"""
+  """The comments for the live stream"""
   comments(
     """
     Only look at connected edges with cursors greater than the value of `after`.
@@ -331,7 +306,6 @@ type LogoutPayload {
 type Mutation {
   saveLiveStream(input: SaveLiveStreamInput!): SaveLiveStreamPayload
   rateAudio(input: RateInput!): RateAudioPayload
-  rateComment(input: RateInput!): RateAudioPayload
   register(input: RegisterInput!): RegisterPayload
   login(input: LoginInput!): LoginPayload
   externalLoginConfirmation(input: ExternalLoginConfirmationInput!): ExternalLoginConfirmationPayload
@@ -341,7 +315,6 @@ type Mutation {
   resetPassword(input: ResetPasswordInput!): ResetPasswordPayload
   comment(input: SaveCommentInput!): SaveCommentPayload
   flagAudio(input: FlagAudioInput!): FlagObjectPayload
-  flagComment(input: FlagCommentInput!): FlagObjectPayload
 }
 
 interface Node {
@@ -439,9 +412,6 @@ type Rating implements Node {
 
   """The audio that was rated by the user"""
   audio: Audio
-
-  """The comment that was rated by the user"""
-  comment: Comment
 }
 
 input RegisterInput {
@@ -472,7 +442,7 @@ input SaveCommentInput {
   clientMutationId: String = null
   body: String!
   audioId: Int!
-  originalCommentId: Int = null
+  originalCommentId: String = null
 }
 
 type SaveCommentPayload {

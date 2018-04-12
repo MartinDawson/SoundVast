@@ -28,10 +28,15 @@ namespace SoundVast.Components.Dirble
             _cache = cache;
         }
 
-        private async Task<T> GetDirbleResponse<T>(string url, TimeSpan cacheTime) where T : new()
+        private async Task<T> GetDirbleResponse<T>(string url, TimeSpan cacheTime, TimeSpan? timeout = null) where T : new()
         {
             using (var client = new HttpClient())
             {
+                if (timeout.HasValue)
+                {
+                    client.Timeout = timeout.Value;
+                }
+
                 if (!_cache.TryGetValue(url, out T convertedResponse))
                 {
                     if (convertedResponse == null) convertedResponse = new T();
@@ -39,18 +44,14 @@ namespace SoundVast.Components.Dirble
                     try
                     {
                         var response = await client.GetAsync(DIRBLE_API_ADDRESS + url);
+                        var stream = await response.Content.ReadAsStreamAsync();
+                        var json = await new StreamReader(stream).ReadToEndAsync();
 
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var stream = await response.Content.ReadAsStreamAsync();
-                            var json = await new StreamReader(stream).ReadToEndAsync();
+                        convertedResponse = JsonConvert.DeserializeObject<T>(json);
 
-                            convertedResponse = JsonConvert.DeserializeObject<T>(json);
-
-                            _cache.Set(url, convertedResponse, new MemoryCacheEntryOptions {
-                                AbsoluteExpirationRelativeToNow = cacheTime
-                            });
-                        }
+                        _cache.Set(url, convertedResponse, new MemoryCacheEntryOptions {
+                            AbsoluteExpirationRelativeToNow = cacheTime
+                        });
                     }
                     catch (Exception e)
                     {
@@ -63,12 +64,9 @@ namespace SoundVast.Components.Dirble
         }
 
         public async Task<StationDirbleDto> GetStation(int id, TimeSpan cacheTime) => await GetDirbleResponse<StationDirbleDto>($"station/{id}?token={_key}", cacheTime);
-
         public async Task<StationDirbleDto> GetStation(int id) => await GetDirbleResponse<StationDirbleDto>($"station/{id}?token={_key}", TimeSpan.Zero);
         public async Task<IEnumerable<StationDirbleDto>> GetStations(int page, int perPage = 30, int offset = 0) => await GetDirbleResponse<List<StationDirbleDto>>($"stations?token={_key}&per_page={perPage}&page={page}&offset={offset}", TimeSpan.Zero);
-
         public async Task<IEnumerable<GenreDirbleDto>> GetCategoriesInTreeView() => await GetDirbleResponse<List<GenreDirbleDto>>($"categories/tree?token={_key}", TimeSpan.Zero);
-
-        public async Task<IEnumerable<StationDirbleDto>> GetPopularStations(int page, TimeSpan cacheTime, int perPage = 30, int offset = 0) => await GetDirbleResponse<List<StationDirbleDto>>($"stations/popular?token={_key}&per_page={perPage}&page={page}&offset={offset}", cacheTime);
+        public async Task<IEnumerable<StationDirbleDto>> GetPopularStations(int page, TimeSpan cacheTime, int perPage = 30, int offset = 0) => await GetDirbleResponse<List<StationDirbleDto>>($"stations/popular?token={_key}&per_page={perPage}&page={page}&offset={offset}", cacheTime, TimeSpan.FromSeconds(6));
     }
 }

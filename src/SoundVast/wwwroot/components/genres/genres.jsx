@@ -20,7 +20,7 @@ const Genres = ({ genres }) => (
           key={genre.id}
           name={genre.name}
           coverImageUrl={genre.coverImageUrl}
-          url="radios"
+          url="/radio-stations"
         />
       ))}
     </Grid>

@@ -12,8 +12,8 @@ namespace SoundVast.Components.GraphQl
     {
         public INodeVisitor Validate(ValidationContext context)
         {
-            var userContext = context.UserContext.As<Context>();
-            var loggedIn = userContext.CurrentUser != null;
+         //   var userContext = context.UserContext.As<Context>();
+          //  var loggedIn = userContext.CurrentUser != null;
 
             return new EnterLeaveListener(_ =>
             {

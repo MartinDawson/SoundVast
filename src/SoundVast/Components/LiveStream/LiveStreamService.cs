@@ -18,7 +18,7 @@ namespace SoundVast.Components.LiveStream
         private IRepository<Models.LiveStream> _repository;
         private IDirble _dirble;
 
-        public LiveStreamService(IRepository<Models.LiveStream> repository, 
+        public LiveStreamService(IRepository<Models.LiveStream> repository,
             IValidationProvider validationProvider, ICloudStorage cloudStorage, IDirble dirble)
             : base(repository, validationProvider, cloudStorage)
         {
@@ -31,35 +31,29 @@ namespace SoundVast.Components.LiveStream
             return _repository.GetAll().BuildLiveStream().SingleOrDefault(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Models.LiveStream>> GetPopularLiveStreams(int page, string genreName, string searchQuery)
+        public void UpdateListeners(int id, int listeners)
         {
-            var liveStreams = GetAudios(genreName, searchQuery).AsQueryable().BuildLiveStream();
-            var popularLivestreams = new List<Models.LiveStream>();
-            var pageToFetch = 1;
+            var station = _repository.Get(id);
 
-            while (pageToFetch <= page)
-            {
-                var stationDtos = await _dirble.GetPopularStations(pageToFetch, TimeSpan.FromMinutes(20), 30);
+            station.Listeners = listeners;
 
-                foreach (var stationDto in stationDtos)
-                {
-                    var station = GetLiveStream(stationDto.Id);
-
-                    if (station != null)
-                    {
-                        popularLivestreams.Add(station);
-                    }
-                }
-
-                pageToFetch++;
-            }
-
-            return popularLivestreams;
+            _repository.Save();
         }
 
-        public IEnumerable<Models.LiveStream> GetLiveStreams(int count, string genreName, string searchQuery)
+        public IEnumerable<Models.LiveStream> GetLiveStreams(int count, Filter.Filter filter, string genreName, string searchQuery)
         {
-            var liveStreams = GetAudios(genreName, searchQuery).AsQueryable().BuildLiveStream();
+            var liveStreams = GetAudios(genreName, searchQuery)
+                .AsQueryable().BuildLiveStream()
+                .Where(x => x.CoverImageName != null);
+
+            if (filter.Newest)
+            {
+                liveStreams = liveStreams.OrderByDescending(x => x.DateAdded);
+            }
+            else
+            {
+                liveStreams = liveStreams.OrderByDescending(x => x.Listeners);
+            }
 
             return liveStreams.Take(count);
         }

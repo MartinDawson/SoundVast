@@ -23,17 +23,13 @@ namespace SoundVast.Components.GraphQl
             {
                 Name = "commentAdded",
                 Type = typeof(CommentPayload),
-                Arguments = new QueryArguments(
-                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "audioId" }
-                ),
                 Resolver = new FuncFieldResolver<Comment.Models.Comment>(c => {
                     return (Comment.Models.Comment)c.Source;
                 }),
                 Subscriber = new EventStreamResolver<Comment.Models.Comment>(c => {
-                    var audioId = c.GetArgument<int>("audioId");
                     var comments = commentService.Comments();
 
-                    return comments.Where(x => x.Audio.Id == audioId);
+                    return comments;
                 }),
             });
         }

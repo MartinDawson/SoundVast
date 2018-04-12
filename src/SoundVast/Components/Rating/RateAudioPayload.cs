@@ -12,7 +12,7 @@ using SoundVast.Components.User;
 
 namespace SoundVast.Components.Rating
 {
-    public class RateAudioPayload : MutationPayloadGraphType
+    public class RateAudioPayload : MutationPayloadGraphType<Task<object>>
     {
         private readonly IAudioService<Audio.Models.Audio> _audioService;
 
@@ -25,12 +25,12 @@ namespace SoundVast.Components.Rating
             Field<RatingPayload>("rating");
         }
 
-        public override object MutateAndGetPayload(MutationInputs inputs, ResolveFieldContext<object> context)
+        public override async Task<object> MutateAndGetPayload(MutationInputs inputs, ResolveFieldContext<object> c)
         {
             var id = inputs.Get<int>("id");
             var liked = inputs.Get<bool>("liked");
-            var user = context.UserContext.As<Context>().CurrentUser;
-            var rating = _audioService.Rate(id, user.Id, liked);
+            var context = await c.UserContext.As<Task<Context>>();
+            var rating = _audioService.Rate(id, context.CurrentUser.Id, liked);
 
             return new
             {

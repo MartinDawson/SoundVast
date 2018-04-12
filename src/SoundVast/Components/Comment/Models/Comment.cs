@@ -10,10 +10,17 @@ namespace SoundVast.Components.Comment.Models
 {
     public class Comment
     {
+        public Comment()
+        {
+            DateAdded = DateTime.UtcNow;
+        }
+
         [Required]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [Required]
         public string Body { get; set; }
+        [Required]
+        public DateTimeOffset DateAdded { get; set; }
         [Required]
         public Audio.Models.Audio Audio { get; set; }
         [Required]
