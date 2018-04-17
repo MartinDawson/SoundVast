@@ -72,7 +72,7 @@ namespace SoundVast.Data
 
                     _genreService.UpdateCoverImages();
 
-                    // LuceneSearch.AddOrUpdateLuceneIndex(_audioService.GetAudios());
+                    LuceneSearch.AddOrUpdateLuceneIndex(_audioService.GetAudios());
 
                     context.SaveChanges();
                 }

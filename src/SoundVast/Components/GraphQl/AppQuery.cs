@@ -50,6 +50,7 @@ namespace SoundVast.Components.GraphQl
                     var offset = ConnectionUtils.OffsetOrDefault(c.After, 0);
                     var page = ((offset + 1) / c.First.Value) + 2;
                     var liveStreams = liveStreamService.GetLiveStreams(c.First.Value * page, filter, genre, searchQuery);
+                    var e = liveStreams.ToList();
 
                     return ConnectionUtils.ToConnection(liveStreams, c);
                 });

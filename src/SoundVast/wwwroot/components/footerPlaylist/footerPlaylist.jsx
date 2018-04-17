@@ -37,10 +37,6 @@ const FooterPlaylist = ({ isPlaylistEmpty }) => {
             <Previous><i className="fa fa-step-backward" /></Previous>
             <Play><i className="fa">{/* Icon set in css */}</i></Play>
             <Next><i className="fa fa-step-forward" /></Next>
-            <Repeat>
-              <i className="fa">{/* Icon set in css */}</i>
-              <i className="fa fa-repeat" />
-            </Repeat>
             <Shuffle><i className="fa fa-random" /></Shuffle>
             <div className="jp-volume-container">
               <Mute>
